@@ -13,6 +13,9 @@ const config = {
 
 app.post("/webhook", async (req, res) => {
   const events = req.body.events;
+  if (!events) {
+    return res.sendStatus(200); // ไม่มี events ให้ตอบ 200 ปกติ
+  }
 
   for (let event of events) {
     if (event.type === "message" && event.message.type === "text") {
@@ -146,6 +149,7 @@ app.get("/", (req, res) => {
   res.send("LINE Webhook is running 🚀");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
